@@ -1,22 +1,29 @@
 CXX = g++
-
 CXXFLAGS = -std=c++17 -Wall
-
 LDFLAGS = -pthread
 
-TARGET = test_logger
+# Principal: o servidor
+SERVER_TARGET = chat_server
+SERVER_SOURCES = main.cpp Server.cpp ClientHandler.cpp tslog.cpp
+SERVER_OBJECTS = $(SERVER_SOURCES:.cpp=.o)
 
-SOURCES = tslog.cpp test_logger.cpp
+# Teste: o logger
+TEST_TARGET = test_logger
+TEST_SOURCES = test_logger.cpp tslog.cpp
+TEST_OBJECTS = $(TEST_SOURCES:.cpp=.o)
 
-OBJECTS = $(SOURCES:.cpp=.o)
+all: $(SERVER_TARGET)
 
-all: $(TARGET)
+$(SERVER_TARGET): $(SERVER_OBJECTS)
+	$(CXX) $(CXXFLAGS) -o $(SERVER_TARGET) $(SERVER_OBJECTS) $(LDFLAGS)
 
-$(TARGET): $(OBJECTS)
-		$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJECTS) $(LDFLAGS)
+test: $(TEST_TARGET)
+
+$(TEST_TARGET): $(TEST_OBJECTS)
+	$(CXX) $(CXXFLAGS) -o $(TEST_TARGET) $(TEST_OBJECTS) $(LDFLAGS)
 
 %.o: %.cpp
-		$(CXX) $(CXXFLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-		rm -f $(TARGET) $(OBJECTS) chat.log
+	rm -f $(SERVER_TARGET) $(TEST_TARGET) $(SERVER_OBJECTS) $(TEST_OBJECTS) *.log

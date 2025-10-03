@@ -17,6 +17,8 @@ public:
     // transmite uma mensagem para todos os clientes
     void broadcast_message(const std::string& message, int sender_socket);
 
+    Logger& getLogger();
+    
 private:
     // lida com a lógica de aceitar novas conexões em um loop
     void accept_connections();
