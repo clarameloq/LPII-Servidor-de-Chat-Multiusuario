@@ -15,6 +15,7 @@ void ClientHandler::handle(){
         int bytes_received = recv(client_socket_, buffer, sizeof(buffer), 0);
 
         if(bytes_received <= 0){
+            server_->remove_client(shared_from_this());
             std::cout << "Cliente (socket " << client_socket_ << ") desconectado" << std::endl;
             close(client_socket_);
             return;

@@ -1,10 +1,11 @@
 #pragma once
 #include <string>
 #include <thread>
+#include <memory>
 
 class Server;
 
-class ClientHandler {
+class ClientHandler : public std::enable_shared_from_this<ClientHandler>{
 public:
     // construtor
     ClientHandler(int client_socket, Server* server);

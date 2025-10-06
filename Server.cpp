@@ -8,6 +8,7 @@
 #include <thread>
 #include <memory>
 #include <algorithm>
+#include <algorithm>
 
 //contrutor do servidor
 Server::Server(int port, Logger& logger) : logger_(logger){
@@ -51,6 +52,13 @@ void Server::accept_connections(){
         continue;;
        }
 
+       {
+        std::lock_guard<std::mutex> lock(history_mutex_);
+        for (const auto& msg : message_history_){
+            send(client_socket, msg.c_str(), msg.length(), 0);
+        }
+       }
+
        logger_.write("Nova conexão aceita! Socket do cliente: " + std::to_string(client_socket));
 
        auto handler = std::make_shared<ClientHandler>(client_socket, this);
@@ -66,8 +74,15 @@ void Server::accept_connections(){
 }
 
 void Server::broadcast_message(const std::string& message, int sender_socket){
+    {
+        std::lock_guard<std::mutex> lock(history_mutex_);
+        message_history_.push_back(message);
+        if (message_history_.size() > MAX_HISTORY_SIZE) {
+            message_history_.pop_front();
+        }
+    }
+    
     std::lock_guard<std::mutex> lock(clients_mutex_);
-
     for (const auto& client : clients_){
         if(client->get_socket() != sender_socket){
             client->send_message(message);
@@ -77,4 +92,14 @@ void Server::broadcast_message(const std::string& message, int sender_socket){
 
 Logger& Server::getLogger(){
     return logger_;
+}
+
+void Server::remove_client(std::shared_ptr<ClientHandler> client){
+    std::lock_guard<std::mutex> lock(clients_mutex_);
+
+    clients_.erase(
+        std::remove(clients_.begin(), clients_.end(), client),
+        clients_.end()
+    );
+    logger_.write("Cliente (socket " + std::to_string(client->get_socket()) + ") removido da lista");
 }

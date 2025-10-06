@@ -1,0 +1,24 @@
+2025-10-06 06:34:03 - Socket do servidor criado
+2025-10-06 06:34:03 - Socket fez bind na porta 8080
+2025-10-06 06:34:03 - Servidor aguardando por conexões...
+2025-10-06 07:15:40 - Socket do servidor criado
+2025-10-06 07:15:40 - Socket fez bind na porta 8080
+2025-10-06 07:15:40 - Servidor aguardando por conexões...
+2025-10-06 07:15:51 - Nova conexão aceita! Socket do cliente: 5
+2025-10-06 07:16:02 - Nova conexão aceita! Socket do cliente: 6
+2025-10-06 07:16:06 - Recebido do socket 6: teste 1
+
+2025-10-06 07:16:11 - Recebido do socket 5: teste 2
+
+2025-10-06 07:16:15 - Recebido do socket 6: teste 3
+
+2025-10-06 07:16:18 - Recebido do socket 5: teste 4
+
+2025-10-06 07:16:22 - Recebido do socket 6: teste 5
+
+2025-10-06 07:16:26 - Recebido do socket 5: teste 6
+
+2025-10-06 07:17:07 - Cliente (socket 6) removido da lista
+2025-10-06 07:17:21 - Nova conexão aceita! Socket do cliente: 7
+2025-10-06 07:17:30 - Cliente (socket 7) removido da lista
+2025-10-06 07:17:37 - Cliente (socket 5) removido da lista
